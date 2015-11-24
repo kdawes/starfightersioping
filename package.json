@@ -1,0 +1,16 @@
+{
+  "name": "watch_starfightersio",
+  "version": "1.0.0",
+  "description": "creep on the starfighters.io landing page",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./index.js"
+  },
+  "keywords": [],
+  "author": "kelsey dawes kdawes@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.67.0"
+  }
+}
