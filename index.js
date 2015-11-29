@@ -1,6 +1,7 @@
 'use strict'
 let request = require('request')
 let util = require('util')
+let selectn = require('selectn')
 
 function popSmoke (serviceUrl, message) {
   if (!serviceUrl) {
@@ -52,7 +53,9 @@ function Watcher (url) {
         throw new Error('Watcher::watch : interval must be an integer')
       }
       intervalId = setInterval(function intervalFn () {
-        var etag = (cache && cache.headers && cache.headers.etag) ? cache.headers.etag : 'cold'
+        // var etag = (cache && cache.headers && cache.headers.etag) ? cache.headers.etag : 'cold'
+        let etag = selectn('headers.etag', cache) || 'cold'
+        console.log('ETAG : ', etag)
         retreiveIt({
           method: 'GET',
           url: url,
@@ -64,11 +67,10 @@ function Watcher (url) {
             throw new Error('watch::retreiveIt : ' +
               e + ' ' + JSON.stringify(e))
           }
-          console.log('cache ' + util.inspect(cache))
-          console.log('r.headers ' + util.inspect(r.headers))
+          // console.log('cache ' + util.inspect(cache))
+          // console.log('r.headers ' + util.inspect(r.headers))
           // are we done and not bootstrapping
-          if (cache && cache.headers &&
-            cache.headers.etag !== r.headers.etag && cache.headers.etag !== 'cold') {
+          if (etag !== r.headers.etag && etag !== 'cold') {
             console.log('DONE!')
             clearInterval(intervalId)
             return done(null, r)
@@ -82,8 +84,6 @@ function Watcher (url) {
 }
 
 let slackUrl = process.env.SLACK_URL
-
-
 let msg = 'http://starfighters.io was updated'
 let w = new Watcher('http://starfighters.io')
 w.watch(300000, function (e, r) {
