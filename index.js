@@ -81,11 +81,12 @@ function Watcher (url) {
   }
 }
 
-let slackUrl = 'https://slack url here'
+let slackUrl = process.env.SLACK_URL
+
 
 let msg = 'http://starfighters.io was updated'
 let w = new Watcher('http://starfighters.io')
-w.watch(30000, function (e, r) {
+w.watch(300000, function (e, r) {
   if (e) { throw new Error(e); } else {
     console.log(msg + JSON.stringify(r.headers))
     popSmoke(slackUrl, msg + ' ' + JSON.stringify(r.headers))
