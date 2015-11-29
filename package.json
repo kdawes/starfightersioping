@@ -8,7 +8,7 @@
     "start": "node ./index.js"
   },
   "keywords": [],
-  "author": "kelsey dawes kdawes@gmail.com",
+  "author": "kelsey dawes https://github.com/kdawes",
   "license": "ISC",
   "dependencies": {
     "request": "^2.67.0",
